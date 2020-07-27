@@ -1,6 +1,14 @@
 let base_url = "https://api.football-data.org/v2/";
 let token = "8daec90e04444ae09a51c40ed28b5961";
 
+document.addEventListener("DOMContentLoaded", function () {
+  $('.preloader-background').delay(1700).fadeOut('slow');
+
+  $('.preloader-wrapper')
+    .delay(1700)
+    .fadeOut();
+});
+
 // Blok kode yang akan di panggil jika fetch berhasil
 function status(response) {
   if (response.status !== 200) {
@@ -28,7 +36,7 @@ function team(teams, crestUrl) {
   let teamsHTML = `
     <div class="card">
       <a href="./article.html?id=${teams.id}">
-        <img class="card-img-top" style="width:30%;display: block;margin: 0 auto;"src="${crestUrl}">
+        <img class="card-img-top" style="width:30%;display: block;margin: 0 auto;"src="${crestUrl}" onerror="this.src='not-found.png'">
         <div class="card-body">
           <h5 class="card-title" align="center"><strong>${teams.name}</strong></h5>
         </div>
@@ -41,7 +49,7 @@ function articleByid(data) {
   let article = `
       <div class="card">
         <div class="card-image waves-effect waves-block waves-light">
-          <img src="${data.crestUrl}" />
+          <img src="${data.crestUrl}" onerror="this.src='not-found.png'"/>
         </div>
         <div class="card-content">
           <span class="card-title text-center">${data.name}</span>
