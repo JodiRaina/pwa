@@ -2,11 +2,9 @@ let base_url = "https://api.football-data.org/v2/";
 let token = "8daec90e04444ae09a51c40ed28b5961";
 
 document.addEventListener("DOMContentLoaded", function () {
-  $('.preloader-background').delay(1700).fadeOut('slow');
+  $(".preloader-background").delay(1700).fadeOut("slow");
 
-  $('.preloader-wrapper')
-    .delay(1700)
-    .fadeOut();
+  $(".preloader-wrapper").delay(1700).fadeOut();
 });
 
 // Blok kode yang akan di panggil jika fetch berhasil
@@ -90,8 +88,12 @@ function getArticles() {
 
           teams.forEach(function (teams) {
             let crestUrl = teams.crestUrl;
-            if (crestUrl === null || crestUrl === undefined || crestUrl === "") {
-              crestUrl = "/images/team_img_not_found.jpg";
+            if (
+              crestUrl === null ||
+              crestUrl === undefined ||
+              crestUrl === ""
+            ) {
+              crestUrl = "../not-found.png";
             } else {
               crestUrl = crestUrl.replace(/^http:\/\//i, "https://");
             }
@@ -104,10 +106,10 @@ function getArticles() {
   }
 
   fetch(base_url + "teams", {
-      headers: {
-        "X-Auth-Token": token,
-      },
-    })
+    headers: {
+      "X-Auth-Token": token,
+    },
+  })
     .then(status)
     .then(json)
     .then(function (data) {
@@ -117,7 +119,7 @@ function getArticles() {
       teams.forEach(function (teams) {
         let crestUrl = teams.crestUrl;
         if (crestUrl === null || crestUrl === undefined || crestUrl === "") {
-          crestUrl = "/images/team_img_not_found.jpg";
+          crestUrl = "../not-found.png";
         } else {
           crestUrl = crestUrl.replace(/^http:\/\//i, "https://");
         }
@@ -146,10 +148,10 @@ function getArticleById() {
     }
 
     fetch(base_url + "teams/" + idParam, {
-        headers: {
-          "X-Auth-Token": token,
-        },
-      })
+      headers: {
+        "X-Auth-Token": token,
+      },
+    })
       .then(status)
       .then(json)
       .then(function (data) {
@@ -189,25 +191,27 @@ function getSavedArticleById() {
 
 function getStandings() {
   if ("caches" in window) {
-    caches.match(base_url + "competitions/2021/standings").then(function (response) {
-      if (response) {
-        response.json().then(function (res) {
-          let standingsHTML = "";
-          let standings = res.standings[0].table;
-          standings.forEach(function (standing) {
-            standingsHTML += funstandings(standing);;
-            document.getElementById("standings").innerHTML = standingsHTML;
+    caches
+      .match(base_url + "competitions/2021/standings")
+      .then(function (response) {
+        if (response) {
+          response.json().then(function (res) {
+            let standingsHTML = "";
+            let standings = res.standings[0].table;
+            standings.forEach(function (standing) {
+              standingsHTML += funstandings(standing);
+              document.getElementById("standings").innerHTML = standingsHTML;
+            });
           });
-        });
-      }
-    });
+        }
+      });
   }
 
   fetch(base_url + "competitions/2021/standings", {
-      headers: {
-        "X-Auth-Token": token,
-      },
-    })
+    headers: {
+      "X-Auth-Token": token,
+    },
+  })
     .then(status)
     .then(json)
     .then(function (res) {
